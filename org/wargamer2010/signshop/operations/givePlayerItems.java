@@ -4,7 +4,6 @@ import org.bukkit.inventory.ItemStack;
 import org.wargamer2010.signshop.util.itemUtil;
 import org.wargamer2010.signshop.configuration.SignShopConfig;
 import org.bukkit.Material;
-import org.wargamer2010.signshop.player.VirtualInventory;
 
 public class givePlayerItems implements SignShopOperation {
     @Override

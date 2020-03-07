@@ -13,7 +13,6 @@ import org.wargamer2010.signshop.util.*;
 
 import com.kellerkindt.scs.*;
 
-import java.util.UUID;
 import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.wargamer2010.signshop.SignShop;

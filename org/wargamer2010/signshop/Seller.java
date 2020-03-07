@@ -13,7 +13,6 @@ import com.kellerkindt.scs.*;
 import java.util.LinkedHashMap;
 import java.util.logging.Level;
 import org.bukkit.block.Sign;
-import org.bukkit.plugin.Plugin;
 import org.wargamer2010.signshop.blocks.SignShopBooks;
 import org.wargamer2010.signshop.blocks.SignShopItemMeta;
 import org.wargamer2010.signshop.player.PlayerIdentifier;

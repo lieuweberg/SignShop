@@ -2,7 +2,7 @@ package org.wargamer2010.signshop.operations;
 
 import java.util.Collections;
 import java.util.Comparator;
-import org.bukkit.entity.Player;
+
 import org.bukkit.inventory.ItemStack;
 import org.wargamer2010.signshop.util.itemUtil;
 import org.wargamer2010.signshop.configuration.SignShopConfig;
