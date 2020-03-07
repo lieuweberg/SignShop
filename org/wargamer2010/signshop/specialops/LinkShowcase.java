@@ -1,5 +1,6 @@
 package org.wargamer2010.signshop.specialops;
 
+import com.kellerkindt.scs.internals.NamedUUID;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -11,6 +12,8 @@ import org.wargamer2010.signshop.player.SignShopPlayer;
 import org.wargamer2010.signshop.util.*;
 
 import com.kellerkindt.scs.*;
+
+import java.util.UUID;
 import java.util.logging.Level;
 import org.bukkit.Bukkit;
 import org.wargamer2010.signshop.SignShop;
@@ -56,8 +59,8 @@ public class LinkShowcase implements SignShopSpecialOp {
 
         ShowCaseStandalone scs = (ShowCaseStandalone) Bukkit.getServer().getPluginManager().getPlugin("ShowCaseStandalone");
 
-        com.kellerkindt.scs.shops.Shop p = new com.kellerkindt.scs.shops.DisplayShop(bStep.getWorld().getUID(),
-                ssPlayer.getPlayer().getUniqueId(), bStep.getLocation(), showcasing);
+        com.kellerkindt.scs.shops.Shop p = new com.kellerkindt.scs.shops.DisplayShop(scs, bStep.getWorld().getUID(),
+            new NamedUUID(ssPlayer.getPlayer().getUniqueId(), ssPlayer.getName()), shopSign.getLocation(), showcasing);
         p.setItemStack(showcasing);
         p.setAmount(1);
         p.setVisible(true);

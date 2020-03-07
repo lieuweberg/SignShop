@@ -148,12 +148,12 @@ public class itemUtil {
 
     public static String formatData(MaterialData data, short durability) {
         String sData;
-        // Lookup spout custom material
-        if(Bukkit.getServer().getPluginManager().isPluginEnabled("Spout")) {
-            sData = spoutUtil.getName(data, durability);
-            if(sData != null)
-                return sData;
-        }
+//        // Lookup spout custom material
+//        if(Bukkit.getServer().getPluginManager().isPluginEnabled("Spout")) {
+//            sData = spoutUtil.getName(data, durability);
+//            if(sData != null)
+//                return sData;
+//        }
 
         // For some reason running tostring on data when it's from an attachable material
         // will cause a NullPointerException, thus if we're dealing with an attachable, go the easy way :)
@@ -486,7 +486,7 @@ public class itemUtil {
 
                 if(isItems[i] == null) {
                     isItems[i] = tags.getCraftItemstack(
-                        Material.getMaterial(Integer.parseInt(sItemprops[1])),
+                        Material.getMaterial(sItemprops[1]),
                         Integer.parseInt(sItemprops[0]),
                         Short.parseShort(sItemprops[2])
                     );
@@ -556,7 +556,7 @@ public class itemUtil {
                 stacks[0] = isCurrent;
 
                 sItems.add((isCurrent.getAmount() + Storage.getItemSeperator()
-                        + isCurrent.getTypeId() + Storage.getItemSeperator()
+                        + isCurrent.getType().getId() + Storage.getItemSeperator()
                         + isCurrent.getDurability() + Storage.getItemSeperator()
                         + isCurrent.getData().getData() + Storage.getItemSeperator()
                         + signshopUtil.convertEnchantmentsToString(isCurrent.getEnchantments()) + Storage.getItemSeperator()

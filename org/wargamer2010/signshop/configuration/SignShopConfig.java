@@ -150,14 +150,11 @@ public class SignShopConfig {
     }
 
     private static void setupHooks() {
-        HookManager.addHook("LWC");
-        HookManager.addHook("Lockette");
         HookManager.addHook("WorldGuard");
         HookManager.addHook("Deadbolt");
         HookManager.addHook("Residence");
         HookManager.addHook("GriefPrevention");
         HookManager.addHook("PreciousStones");
-        HookManager.addHook("PlotMe");
         HookManager.addHook("Towny");
         HookManager.addHook("Lorelocks");
     }

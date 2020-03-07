@@ -132,13 +132,7 @@ public class signshopUtil {
             if(sEnchantment.length < 2)
                 continue;
             else {
-                Enchantment eTemp;
-                try {
-                    iEnchantment = Integer.parseInt(sEnchantment[0]);
-                    eTemp = Enchantment.getById(iEnchantment);
-                } catch(NumberFormatException ex) {
-                    eTemp = Enchantment.getByName(sEnchantment[0]);
-                }
+                Enchantment eTemp = Enchantment.getByName(sEnchantment[0]);
                 if(eTemp == null)
                     continue;
                 try {

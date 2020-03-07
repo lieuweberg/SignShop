@@ -2,6 +2,7 @@ package org.wargamer2010.signshop.blocks;
 
 import org.bukkit.block.Block;
 import org.bukkit.material.Door;
+import org.bukkit.material.MaterialData;
 
 /**
  * Class that will temporarily fix the issues that exist with the Door class
@@ -45,7 +46,10 @@ public class SSDoor extends Door {
     public void setData(byte data) {
         if(bBottomHalf == null)
             super.setData(data);
-        else
-            bBottomHalf.setData(data);
+        else {
+            MaterialData state = bBottomHalf.getState().getData();
+            Door d = (Door) state;
+            d.setData(data);
+        }
     }
 }

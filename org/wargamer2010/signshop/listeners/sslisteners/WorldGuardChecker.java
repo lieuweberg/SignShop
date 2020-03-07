@@ -1,12 +1,17 @@
 
 package org.wargamer2010.signshop.listeners.sslisteners;
 
-import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
+import com.sk89q.worldedit.math.BlockVector3;
+import com.sk89q.worldedit.world.World;
+import com.sk89q.worldguard.LocalPlayer;
+import com.sk89q.worldguard.WorldGuard;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
 import java.util.Map;
-import org.bukkit.World;
+
+import com.sk89q.worldguard.protection.regions.RegionContainer;
+import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -22,11 +27,13 @@ public class WorldGuardChecker implements Listener {
             return;
         if(HookManager.getHook("WorldGuard") == null)
             return;
-        WorldGuardPlugin WG = (WorldGuardPlugin)HookManager.getHook("WorldGuard");
 
-        World world = event.getPlayer().getWorld();
+        RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        World world = ((LocalPlayer) event.getPlayer()).getWorld();
+        Location sl = event.getSign().getLocation();
+        BlockVector3 region = BlockVector3.at(sl.getX(), sl.getY(), sl.getZ());
 
-        for(ProtectedRegion r : WG.getRegionManager(world).getApplicableRegions(event.getSign().getLocation()).getRegions()) {
+        for(ProtectedRegion r : container.get(world).getApplicableRegions(region).getRegions()) {
             for(Map.Entry<Flag<?>, Object> flag : r.getFlags().entrySet()) {
                 if(flag.getKey().getName().equals("allow-shop")) {
                     if(flag.getKey() instanceof StateFlag) {
