@@ -3,8 +3,8 @@ package org.wargamer2010.signshop.util;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.material.Lever;
-import org.bukkit.material.MaterialData;
 import org.wargamer2010.signshop.Seller;
 import org.wargamer2010.signshop.configuration.SignShopConfig;
 import org.wargamer2010.signshop.configuration.Storage;
@@ -22,7 +22,7 @@ public class lagSetter implements Runnable{
             // Best effort, load 2 chunks around the block in the hope it's enough
             itemUtil.loadChunkByBlock(blockToChange, SignShopConfig.getChunkLoadRadius());
             BlockState state = blockToChange.getState();
-            MaterialData data = state.getData();
+            BlockData data = state.getBlockData();
             Lever lever = (Lever)data;
             lever.setPowered(false);
             state.setData(lever);

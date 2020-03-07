@@ -146,7 +146,7 @@ public class signshopUtil {
 
     public static String convertEnchantmentsToString(Map<Enchantment, Integer> aEnchantments) {
         String sEnchantments = "";
-        Boolean first = true;
+        boolean first = true;
         for(Map.Entry<Enchantment, Integer> entry : aEnchantments.entrySet()) {
             if(first) first = false;
             else sEnchantments += ";";
@@ -167,8 +167,7 @@ public class signshopUtil {
             World world = pWorld;
             if(sCoords.length > 3 && Bukkit.getWorld(sCoords[3]) != null)
                 world = Bukkit.getWorld(sCoords[3]);
-            Location loc = new Location(world, Double.parseDouble(sCoords[0]), Double.parseDouble(sCoords[1]), Double.parseDouble(sCoords[2]));
-            return loc;
+            return new Location(world, Double.parseDouble(sCoords[0]), Double.parseDouble(sCoords[1]), Double.parseDouble(sCoords[2]));
         } catch(NumberFormatException ex) {
             return null;
         }
@@ -178,7 +177,7 @@ public class signshopUtil {
         return getNumberFromLine(bSign, 2);
     }
 
-    public static Double getNumberFromLine(Block bSign, int line) {
+    private static Double getNumberFromLine(Block bSign, int line) {
         Sign sign = (Sign)bSign.getState();
         String XPline = sign.getLines()[line];
         if(XPline == null)
@@ -199,9 +198,7 @@ public class signshopUtil {
             String bit = bits.get(i);
             try {
                 percentages.add(Integer.parseInt(bit));
-            } catch(NumberFormatException ex) {
-                continue;
-            }
+            } catch(NumberFormatException ignored) { }
         }
         return percentages;
     }
@@ -258,7 +255,7 @@ public class signshopUtil {
         for(Block restrictedsign : clickedBlocks) {
             if(itemUtil.clickedSign(restrictedsign)) {
                 Sign sign = (Sign)restrictedsign.getState();
-                Boolean bValidGroup = false;
+                boolean bValidGroup = false;
                 for(int i = 1; i < 4; i++) {
                     if(!lineIsEmpty(sign.getLine(i)))
                         bValidGroup = true;
@@ -335,7 +332,7 @@ public class signshopUtil {
             player.sendMessage(SignShopConfig.getError("restricted_but_owner", null));
             return false;
         } else
-            return (playerGroups.size() > 0 ? !player.isOp() : false);
+            return (playerGroups.size() > 0 && !player.isOp());
     }
 
     public static Boolean lineIsEmpty(String line) {
@@ -386,7 +383,7 @@ public class signshopUtil {
         return entities;
     }
 
-    public static List<Entity> getEntitiesFromLocStringList(List<String> sLocs, World world) {
+    private static List<Entity> getEntitiesFromLocStringList(List<String> sLocs, World world) {
         List<Entity> entities = new LinkedList<Entity>();
         List<Entity> worldEntities = world.getEntities();
         for(String loc : sLocs) {
@@ -402,7 +399,7 @@ public class signshopUtil {
         return entities;
     }
 
-    public static Boolean clickedSignShopMat(Block bBlock, SignShopPlayer ssPlayer) {
+    private static Boolean clickedSignShopMat(Block bBlock, SignShopPlayer ssPlayer) {
         return clickedSignShopMat(bBlock.getType().toString(), bBlock.getData(), ssPlayer);
     }
 
@@ -410,7 +407,7 @@ public class signshopUtil {
         return clickedSignShopMat(eEntity.getType().toString(), (short)-1, ssPlayer);
     }
 
-    public static Boolean clickedSignShopMat(String mat, short dur, SignShopPlayer ssPlayer) {
+    private static Boolean clickedSignShopMat(String mat, short dur, SignShopPlayer ssPlayer) {
         String materialName = null;
         for(LinkableMaterial linkable : SignShopConfig.getLinkableMaterials()) {
             if((linkable.getData() == -1 || linkable.getData() == dur) && linkable.getMaterialName().equalsIgnoreCase(mat))
@@ -432,7 +429,7 @@ public class signshopUtil {
         return registerClickedMaterial(event, event.getPlayer(), event.getClickedBlock());
     }
 
-    public static Boolean registerClickedMaterial(Cancellable event, Player player, Block clickedBlock) {
+    private static Boolean registerClickedMaterial(Cancellable event, Player player, Block clickedBlock) {
         SignShopPlayer ssPlayer = new SignShopPlayer(player);
         Boolean signshopMat = registerClickedMaterial(clickedBlock, ssPlayer);
         if(signshopMat)
@@ -453,7 +450,7 @@ public class signshopUtil {
                 else {
                     clicks.mClicksPerLocation.put(bClicked.getLocation(), ssPlayer.getPlayer());
                     Map<String, String> messageParts = new LinkedHashMap<String, String>();
-                    messageParts.put("!block", itemUtil.formatData(bClicked.getState().getData()));
+                    messageParts.put("!block", itemUtil.formatData(bClicked.getState().getBlockData()));
                     if(bClicked.getState() instanceof InventoryHolder) {
                         List<Block> containables = new LinkedList<Block>();
                         containables.add(bClicked);
@@ -485,7 +482,7 @@ public class signshopUtil {
     }
 
     public static boolean getSignshopBlocksFromList(SignShopPlayer ssPlayer, List<Block> containables, List<Block> activatables, Block bClicked) {
-        Boolean multiWorld = false;
+        boolean multiWorld = false;
         LinkedHashSet<Location> lClicked = getKeysByValue(clicks.mClicksPerLocation, ssPlayer.getPlayer());
         int chestCounter = 0;
         for (Location loc : lClicked) {
@@ -523,7 +520,7 @@ public class signshopUtil {
         return true;
     }
 
-    public static List<Seller> getShopsFromMiscSetting(String miscname, Block pBlock) {
+    private static List<Seller> getShopsFromMiscSetting(String miscname, Block pBlock) {
         List<Block> shopsWithBlockInMisc = Storage.get().getShopsWithMiscSetting(miscname, signshopUtil.convertLocationToString(pBlock.getLocation()));
         List<Seller> sellers = new LinkedList<Seller>();
         if(!shopsWithBlockInMisc.isEmpty()) {
@@ -568,11 +565,7 @@ public class signshopUtil {
         int xdiff = Math.abs(a.getX() - b.getX());
         int ydiff = Math.abs(a.getY() - b.getY());
         int zdiff = Math.abs(a.getZ() - b.getZ());
-        if (xdiff > maxdistance || ydiff > maxdistance || zdiff > maxdistance) {
-            return false;
-        } else {
-            return true;
-        }
+        return xdiff <= maxdistance && ydiff <= maxdistance && zdiff <= maxdistance;
     }
 
     public static String capFirstLetter(final String string) {
@@ -603,11 +596,11 @@ public class signshopUtil {
         return true;
     }
 
-    public static boolean doublesAsInts(double DoubleA, double DoubleB) {
+    private static boolean doublesAsInts(double DoubleA, double DoubleB) {
         return (Math.floor(DoubleA) == Math.floor(DoubleB));
     }
 
-    public static boolean roughLocationCompare(Location locA, Location locB) {
+    private static boolean roughLocationCompare(Location locA, Location locB) {
         return (doublesAsInts(locA.getX(), locB.getX()) && doublesAsInts(locA.getY(), locB.getY()) && doublesAsInts(locA.getZ(), locB.getZ()));
     }
 

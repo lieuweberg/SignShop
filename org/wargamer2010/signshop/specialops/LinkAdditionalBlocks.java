@@ -22,13 +22,12 @@ import org.wargamer2010.signshop.util.*;
 public class LinkAdditionalBlocks implements SignShopSpecialOp {
 
     private List<Block> updateList(final List<Block> masterBlocks, final List<Block> newBlocks, final SignShopPlayer ssPlayer, final Seller pSeller) {
-        List<Block> updatedList = newBlocks;
         for (Block masterBlock : masterBlocks) {
             if (newBlocks.contains(masterBlock)) {
-                ssPlayer.sendMessage("Attempting to unlink " + itemUtil.formatData(masterBlock.getState().getData()) + " from shop.");
-                updatedList.remove(masterBlock);
+                ssPlayer.sendMessage("Attempting to unlink " + itemUtil.formatData(masterBlock.getState().getBlockData()) + " from shop.");
+                newBlocks.remove(masterBlock);
             } else {
-                updatedList.add(masterBlock);
+                newBlocks.add(masterBlock);
             }
         }
         for (Block newBlock : newBlocks) {
@@ -36,15 +35,15 @@ public class LinkAdditionalBlocks implements SignShopSpecialOp {
                 SSLinkEvent event = SSEventFactory.generateLinkEvent(newBlock, ssPlayer, pSeller);
                 SignShop.scheduleEvent(event);
                 if(event.isCancelled()) {
-                    ssPlayer.sendMessage("You are not allowed to link this " + itemUtil.formatData(newBlock.getState().getData()) + " to the shop.");
-                    updatedList.remove(newBlock);
+                    ssPlayer.sendMessage("You are not allowed to link this " + itemUtil.formatData(newBlock.getState().getBlockData()) + " to the shop.");
+                    newBlocks.remove(newBlock);
                 } else {
-                    ssPlayer.sendMessage("Attempting to link " + itemUtil.formatData(newBlock.getState().getData()) + " to the shop.");
+                    ssPlayer.sendMessage("Attempting to link " + itemUtil.formatData(newBlock.getState().getBlockData()) + " to the shop.");
                 }
 
             }
         }
-        return updatedList;
+        return newBlocks;
     }
 
     @Override
@@ -71,7 +70,7 @@ public class LinkAdditionalBlocks implements SignShopSpecialOp {
 
         List<Block> containables = new LinkedList<Block>();
         List<Block> activatables = new LinkedList<Block>();
-        Boolean wentOK = signshopUtil.getSignshopBlocksFromList(ssPlayer, containables, activatables, event.getClickedBlock());
+        boolean wentOK = signshopUtil.getSignshopBlocksFromList(ssPlayer, containables, activatables, event.getClickedBlock());
         if (!wentOK)
             return false;
         if(containables.isEmpty() && activatables.isEmpty())

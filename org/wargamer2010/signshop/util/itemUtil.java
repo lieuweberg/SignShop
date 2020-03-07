@@ -1,14 +1,14 @@
 package org.wargamer2010.signshop.util;
 
+import org.bukkit.block.data.Attachable;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.ChatColor;
 import org.bukkit.block.Block;
 import org.bukkit.Chunk;
 import org.bukkit.block.Sign;
-import org.bukkit.material.MaterialData;
 import org.bukkit.Material;
-import org.bukkit.material.SimpleAttachableMaterialData;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,7 +17,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.regex.Matcher;
-import org.bukkit.Bukkit;
 import org.bukkit.event.block.Action;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.meta.BookMeta;
@@ -141,24 +140,18 @@ public class itemUtil {
         return roman;
     }
 
-    public static String formatData(MaterialData data) {
+    public static String formatData(BlockData data) {
         short s = 0;
         return formatData(data, s);
     }
 
-    public static String formatData(MaterialData data, short durability) {
+    public static String formatData(BlockData data, short durability) {
         String sData;
-//        // Lookup spout custom material
-//        if(Bukkit.getServer().getPluginManager().isPluginEnabled("Spout")) {
-//            sData = spoutUtil.getName(data, durability);
-//            if(sData != null)
-//                return sData;
-//        }
 
         // For some reason running tostring on data when it's from an attachable material
         // will cause a NullPointerException, thus if we're dealing with an attachable, go the easy way :)
-        if(data instanceof SimpleAttachableMaterialData)
-            return stringFormat(data.getItemType().name());
+        if(data instanceof Attachable)
+            return stringFormat(data.getMaterial().name());
 
         sData = data.toString().toLowerCase();
 
@@ -237,7 +230,7 @@ public class itemUtil {
             String newItemMeta = SignShopItemMeta.getName(entry.getKey());
             String count = (SignShopItemMeta.getTextColor() + entry.getValue().toString() + " ");
             if(newItemMeta.isEmpty())
-                sItems += (count + formatData(entry.getKey().getData(), entry.getKey().getDurability()));
+                sItems += (count + formatData(entry.getKey().getData().getItemType().createBlockData(entry.getKey().getData().toString()), entry.getKey().getDurability()));
             else
                 sItems += (count + newItemMeta);
             if(itemUtil.isWriteableBook(entry.getKey())) {

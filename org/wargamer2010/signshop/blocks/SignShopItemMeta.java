@@ -53,7 +53,7 @@ public class SignShopItemMeta {
         }
     }
 
-    public static String convertColorsToDisplay(List<Color> colors) {
+    private static String convertColorsToDisplay(List<Color> colors) {
         if(colors == null || colors.isEmpty())
             return "";
         List<String> temp = new LinkedList<String>();
@@ -98,7 +98,7 @@ public class SignShopItemMeta {
         if(Bukkit.getServer().getPluginManager().isPluginEnabled("WhatIsIt"))
         	nameFromWhatIsIt = WhatIsIt.itemName(stack);
         String itemName = nameFromWhatIsIt.isEmpty() || (nameFromWhatIsIt.compareTo("Unknown")) == 0 ? nameFromWeb : nameFromWhatIsIt;
-        String normal = itemName.isEmpty() ? itemUtil.formatData(stack.getData(), stack.getDurability()) : itemName;
+        String normal = itemName.isEmpty() ? itemUtil.formatData(stack.getData().getItemType().createBlockData(stack.getData().toString()), stack.getDurability()) : itemName;
         String displayname = "";
 
         if(stack.getItemMeta() != null) {
@@ -137,10 +137,10 @@ public class SignShopItemMeta {
             } else if(type == MetaType.Skull) {
                 String postfix = "'s Head";
                 SkullMeta skullmeta = (SkullMeta) meta;
-                if(skullmeta.getOwner() != null) {
+                if(skullmeta.getOwningPlayer().getName() != null) {
                     // Name coloring support had to be dropped since there is no more link between
                     // the skull owner and the actual player
-                    return (skullmeta.getOwner() + postfix);
+                    return (skullmeta.getOwningPlayer().getName() + postfix);
                 } else {
                     // We can no longer get a pretty name by ID (SKULL_ITEM isn't pretty, is it?)
                     // So we'll have to rely on the web lookup, if the server owner has it enabled
