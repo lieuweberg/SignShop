@@ -1,15 +1,14 @@
 package org.wargamer2010.signshop.blocks;
 
 import org.bukkit.block.Block;
-import org.bukkit.block.data.BlockData;
-import org.bukkit.material.Door;
+import org.bukkit.block.data.type.Door;
 
 /**
  * Class that will temporarily fix the issues that exist with the Door class
  * Deprecation is accepted for this class since it is itself deprecated
  */
 @SuppressWarnings("deprecation")
-public class SSDoor extends Door {
+public class SSDoor extends org.bukkit.material.Door {
     private Block bBottomHalf = null;
 
     public SSDoor(Block block) {
@@ -47,9 +46,8 @@ public class SSDoor extends Door {
         if(bBottomHalf == null)
             super.setData(data);
         else {
-            BlockData state = bBottomHalf.getBlockData();
-            Door d = (Door) state;
-            d.setData(data);
+            Door door = (Door) bBottomHalf.getBlockData();
+            door.setHinge(door.getHinge() == Door.Hinge.RIGHT ? Door.Hinge.LEFT : Door.Hinge.RIGHT);
         }
     }
 }

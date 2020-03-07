@@ -140,20 +140,16 @@ public class itemUtil {
         return roman;
     }
 
-    public static String formatData(BlockData data) {
-        short s = 0;
-        return formatData(data, s);
+    public static String formatMaterialName(ItemStack is) {
+        return formatMaterialName(is.getType());
     }
 
-    public static String formatData(BlockData data, short durability) {
-        String sData;
+    public static String formatMaterialName(Block b) {
+        return formatMaterialName(b.getType());
+    }
 
-        // For some reason running tostring on data when it's from an attachable material
-        // will cause a NullPointerException, thus if we're dealing with an attachable, go the easy way :)
-        if(data instanceof Attachable)
-            return stringFormat(data.getMaterial().name());
-
-        sData = data.toString().toLowerCase();
+    public static String formatMaterialName(Material mat) {
+        String sData = mat.name().toLowerCase();
 
         Pattern p = Pattern.compile("\\(-?[0-9]+\\)");
         Matcher m = p.matcher(sData);
@@ -230,7 +226,7 @@ public class itemUtil {
             String newItemMeta = SignShopItemMeta.getName(entry.getKey());
             String count = (SignShopItemMeta.getTextColor() + entry.getValue().toString() + " ");
             if(newItemMeta.isEmpty())
-                sItems += (count + formatData(entry.getKey().getData().getItemType().createBlockData(entry.getKey().getData().toString()), entry.getKey().getDurability()));
+                sItems += (count + formatMaterialName(entry.getKey()));
             else
                 sItems += (count + newItemMeta);
             if(itemUtil.isWriteableBook(entry.getKey())) {

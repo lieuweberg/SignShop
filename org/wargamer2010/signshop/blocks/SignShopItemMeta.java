@@ -98,7 +98,7 @@ public class SignShopItemMeta {
         if(Bukkit.getServer().getPluginManager().isPluginEnabled("WhatIsIt"))
         	nameFromWhatIsIt = WhatIsIt.itemName(stack);
         String itemName = nameFromWhatIsIt.isEmpty() || (nameFromWhatIsIt.compareTo("Unknown")) == 0 ? nameFromWeb : nameFromWhatIsIt;
-        String normal = itemName.isEmpty() ? itemUtil.formatData(stack.getData().getItemType().createBlockData(stack.getData().toString()), stack.getDurability()) : itemName;
+        String normal = itemName.isEmpty() ? itemUtil.formatMaterialName(stack) : itemName;
         String displayname = "";
 
         if(stack.getItemMeta() != null) {

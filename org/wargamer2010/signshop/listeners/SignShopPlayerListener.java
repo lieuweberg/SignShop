@@ -155,9 +155,7 @@ public class SignShopPlayerListener implements Listener {
     @EventHandler(priority = EventPriority.HIGH)
     public void onPlayerInteract(PlayerInteractEvent event) {
         // Respect protection plugins
-        if(event.getClickedBlock() == null
-        || event.isCancelled()
-        || event.getPlayer() == null) {
+        if(event.getClickedBlock() == null || event.isCancelled()) {
             return;
         }
         // Initialize needed variables
@@ -190,7 +188,7 @@ public class SignShopPlayerListener implements Listener {
                 event.setCancelled(true);
                 List<Block> containables = new LinkedList<Block>();
                 List<Block> activatables = new LinkedList<Block>();
-                Boolean wentOK = signshopUtil.getSignshopBlocksFromList(ssPlayer, containables, activatables, bClicked);
+                boolean wentOK = signshopUtil.getSignshopBlocksFromList(ssPlayer, containables, activatables, bClicked);
                 if (!wentOK) {
                     return;
                 }
