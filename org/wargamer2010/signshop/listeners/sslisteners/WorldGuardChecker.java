@@ -29,7 +29,7 @@ public class WorldGuardChecker implements Listener {
             return;
 
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-        World world = ((LocalPlayer) event.getPlayer()).getWorld();
+        World world = ((LocalPlayer) event.getPlayer().getPlayer()).getWorld();
         Location sl = event.getSign().getLocation();
         BlockVector3 region = BlockVector3.at(sl.getX(), sl.getY(), sl.getZ());
 
