@@ -21,7 +21,7 @@ public class WorldGuardHook implements Hook  {
     public Boolean canBuild(Player player, Block block) {
         if (HookManager.getHook("WorldGuard") == null) return true;
 
-        LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player);
+        LocalPlayer localPlayer = WorldGuardPlugin.inst().wrapPlayer(player.getPlayer());
         if (WorldGuard.getInstance().getPlatform().getSessionManager().hasBypass(localPlayer, localPlayer.getWorld())) return true;
 
         Location loc = localPlayer.getLocation();

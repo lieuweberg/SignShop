@@ -3,8 +3,8 @@ package org.wargamer2010.signshop.listeners.sslisteners;
 
 import com.sk89q.worldedit.math.BlockVector3;
 import com.sk89q.worldedit.world.World;
-import com.sk89q.worldguard.LocalPlayer;
 import com.sk89q.worldguard.WorldGuard;
+import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 import com.sk89q.worldguard.protection.flags.Flag;
 import com.sk89q.worldguard.protection.flags.StateFlag;
 import com.sk89q.worldguard.protection.regions.ProtectedRegion;
@@ -29,7 +29,7 @@ public class WorldGuardChecker implements Listener {
             return;
 
         RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-        World world = ((LocalPlayer) event.getPlayer().getPlayer()).getWorld();
+        World world = WorldGuardPlugin.inst().wrapPlayer(event.getPlayer().getPlayer()).getWorld();
         Location sl = event.getSign().getLocation();
         BlockVector3 region = BlockVector3.at(sl.getX(), sl.getY(), sl.getZ());
 
